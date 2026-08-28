@@ -1,0 +1,52 @@
+[
+  {
+    "key": "clean",
+    "label": "Clean",
+    "url": "/samples/clean.jpg"
+  },
+  {
+    "key": "blurry",
+    "label": "Blurry",
+    "url": "/samples/blurry.jpg"
+  },
+  {
+    "key": "severe_blur",
+    "label": "Severe Blur",
+    "url": "/samples/severe_blur.jpg"
+  },
+  {
+    "key": "underexposed",
+    "label": "Underexposed",
+    "url": "/samples/underexposed.jpg"
+  },
+  {
+    "key": "overexposed",
+    "label": "Overexposed",
+    "url": "/samples/overexposed.jpg"
+  },
+  {
+    "key": "noisy",
+    "label": "Noisy",
+    "url": "/samples/noisy.jpg"
+  },
+  {
+    "key": "compressed",
+    "label": "Compressed",
+    "url": "/samples/compressed.jpg"
+  },
+  {
+    "key": "low_contrast",
+    "label": "Low Contrast",
+    "url": "/samples/low_contrast.jpg"
+  },
+  {
+    "key": "mixed",
+    "label": "Mixed",
+    "url": "/samples/mixed.jpg"
+  },
+  {
+    "key": "anomalous",
+    "label": "Anomalous",
+    "url": "/samples/anomalous.jpg"
+  }
+]

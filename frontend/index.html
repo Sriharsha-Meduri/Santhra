@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Santhra - Visual Quality Intelligence</title>
+    <meta name="description" content="AI-powered image quality & defect intelligence. Hybrid CV + deep-learning inspection with explainable, calibrated results." />
+    <script>
+      // Apply the saved theme before first paint to avoid a flash of the wrong theme.
+      try {
+        var t = localStorage.getItem("santhra-theme");
+        if (t !== "light") document.documentElement.classList.add("dark");
+      } catch (e) { document.documentElement.classList.add("dark"); }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
