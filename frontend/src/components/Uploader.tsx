@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Sparkles, UploadCloud, X } from "lucide-react";
 import type { DemoSample } from "../lib/types";
 import { fetchSampleBlob, loadDemoSamples } from "../lib/api";
-import { Card } from "./atoms";
 import { cn } from "../lib/ui";
 
 const MAX_MB = 15;
@@ -39,7 +38,7 @@ export function Uploader({ onAnalyze }: { onAnalyze: (file: File) => void }) {
   function clear() { setFile(null); setPreview(null); setError(null); }
 
   return (
-    <Card className="p-6">
+    <div className="rounded-[1.4rem] border border-line bg-surface p-6 sm:p-7">
       {!file ? (
         <div
           role="button" tabIndex={0} aria-label="Upload an image: drop a file here or activate to browse"
@@ -49,57 +48,56 @@ export function Uploader({ onAnalyze }: { onAnalyze: (file: File) => void }) {
           onClick={() => inputRef.current?.click()}
           onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); inputRef.current?.click(); } }}
           className={cn(
-            "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-14 text-center transition",
-            dragging
-              ? "border-brand-500 bg-brand-500/10"
-              : "border-slate-300 hover:border-brand-400 hover:bg-brand-500/[0.04] dark:border-white/15",
+            "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed px-6 py-16 text-center transition",
+            dragging ? "border-clay bg-clay/[0.05]" : "border-line hover:border-clay/60 hover:bg-clay/[0.03]",
           )}>
-          <div className="rounded-2xl bg-brand-500/15 p-4"><UploadCloud className="h-8 w-8 text-brand-400" /></div>
+          <div className="rounded-2xl bg-clay/12 p-4"><UploadCloud className="h-8 w-8 text-clay" /></div>
           <div>
-            <p className="font-semibold">Drop an image, or click to browse</p>
-            <p className="mt-1 text-xs text-slate-400">JPEG · PNG · BMP · WEBP · TIFF · up to {MAX_MB} MB</p>
+            <p className="font-display text-xl text-ink">Drop an image, or click to browse</p>
+            <p className="mt-1 eyebrow !text-muted">JPEG * PNG * BMP * WEBP * TIFF * up to {MAX_MB} MB</p>
           </div>
           <input ref={inputRef} type="file" accept={ACCEPT} hidden
             onChange={(e) => { const f = e.target.files?.[0]; if (f) stage(f); }} />
         </div>
       ) : (
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <div className="relative">
-            <img src={preview!} alt="preview" className="h-40 w-40 rounded-xl object-cover ring-1 ring-slate-200 dark:ring-white/10" />
-            <button onClick={clear} className="absolute -right-2 -top-2 rounded-full bg-slate-800 p-1 text-white shadow hover:bg-slate-700">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+          <div className="relative shrink-0">
+            <img src={preview!} alt="preview" className="h-44 w-44 rounded-2xl object-cover ring-1 ring-line" />
+            <button onClick={clear} aria-label="Remove"
+              className="absolute -right-2 -top-2 rounded-full bg-ink p-1.5 text-white shadow hover:bg-black">
               <X className="h-3.5 w-3.5" />
             </button>
           </div>
-          <div className="flex flex-1 flex-col justify-between">
-            <div className="text-sm">
-              <p className="font-medium">{file.name}</p>
-              <p className="text-xs text-slate-400">{(file.size / 1024).toFixed(1)} KB · {file.type}</p>
+          <div className="flex flex-1 flex-col justify-between gap-4">
+            <div>
+              <p className="font-display text-lg text-ink">{file.name}</p>
+              <p className="mt-0.5 eyebrow !text-muted">{(file.size / 1024).toFixed(1)} KB * {file.type.replace("image/", "").toUpperCase()}</p>
             </div>
             <button onClick={() => onAnalyze(file)}
-              className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:bg-brand-500 sm:w-auto">
-              <Sparkles className="h-4 w-4" /> Analyze Image
+              className="btn btn-clay w-full px-5 py-3.5 text-base sm:w-auto">
+              <Sparkles className="h-4 w-4" /> Analyze image
             </button>
           </div>
         </div>
       )}
 
-      {error && <p className="mt-3 text-sm text-rose-400">{error}</p>}
+      {error && <p className="mt-3 text-sm font-medium text-danger">{error}</p>}
 
       {samples.length > 0 && (
-        <div className="mt-6 border-t border-slate-200 pt-4 dark:border-white/10">
-          <p className="mb-2 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <div className="mt-7 border-t border-line pt-5">
+          <p className="mb-3 inline-flex items-center gap-1.5 eyebrow">
             <ImagePlus className="h-3.5 w-3.5" /> Try a sample
           </p>
           <div className="flex flex-wrap gap-2">
             {samples.map((s) => (
               <button key={s.key} onClick={() => pickSample(s)}
-                className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-brand-400 hover:text-brand-500 dark:border-white/10 dark:text-slate-300 dark:hover:text-brand-300">
+                className="rounded-full border border-line bg-paper px-3.5 py-1.5 text-sm font-medium text-ink-soft transition hover:border-clay hover:text-clay">
                 {s.label}
               </button>
             ))}
           </div>
         </div>
       )}
-    </Card>
+    </div>
   );
 }

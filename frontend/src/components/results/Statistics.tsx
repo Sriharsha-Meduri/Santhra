@@ -21,9 +21,9 @@ export function Statistics({ result }: { result: AnalysisResult }) {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3">
       {rows.map(([k, v]) => (
-        <div key={k} className="flex items-baseline justify-between border-b border-dashed border-slate-200 pb-1.5 dark:border-white/5">
-          <span className="text-xs text-slate-500 dark:text-slate-400">{k}</span>
-          <span className="font-mono text-xs font-medium text-slate-800 dark:text-slate-100">{v}</span>
+        <div key={k} className="flex items-baseline justify-between border-b border-dashed border-line pb-1.5">
+          <span className="text-xs text-muted">{k}</span>
+          <span className="font-mono text-xs font-medium text-ink">{v}</span>
         </div>
       ))}
     </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertTriangle, Boxes, Gauge, RotateCcw, ScanSearch } from "lucide-react";
+import { AlertTriangle, Layers, RotateCcw, ScanSearch, Sparkles } from "lucide-react";
 import { analyzeFile } from "../lib/api";
 import type { AnalysisResult } from "../lib/types";
 import { Uploader } from "../components/Uploader";
@@ -8,34 +8,63 @@ import { ResultView } from "../components/results/ResultView";
 
 type Status = "idle" | "loading" | "done" | "error";
 
-function Hero() {
-  const feats = [
-    { icon: ScanSearch, t: "Hybrid intelligence", d: "Learned CNN + classical CV, fused" },
-    { icon: Gauge, t: "Calibrated confidence", d: "Temperature-scaled, honest uncertainty" },
-    { icon: Boxes, t: "Explainable", d: "Grad-CAM, forensics & evidence" },
-  ];
+const FEATURES = [
+  { kicker: "Hybrid", icon: Layers, t: "Two opinions, one verdict",
+    d: "A learned CNN and a classical CV engine inspect every image, then a transparent fusion step reconciles them.",
+    tone: "surface" },
+  { kicker: "Honest", icon: ScanSearch, t: "Calibrated confidence",
+    d: "Temperature-scaled class probabilities and a signal-agreement check, so uncertainty is shown, not hidden.",
+    tone: "blush" },
+  { kicker: "Explainable", icon: Sparkles, t: "See why, not just what",
+    d: "Grad-CAM heatmaps, CV problem regions, forensics and a plain-language reason for every call.",
+    tone: "forest" },
+];
+
+const STATS = [
+  { n: "7", l: "Issue types" },
+  { n: "CNN + AE + CV", l: "Signals fused" },
+  { n: "0", l: "API keys" },
+  { n: "Local", l: "Runs on CPU" },
+];
+
+function Features() {
   return (
-    <div className="santhra-fade text-center">
-      <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-500/30 bg-brand-500/10 px-3 py-1 text-xs font-medium text-brand-500 dark:text-brand-300">
-        AI-Powered Image Quality & Defect Intelligence
-      </span>
-      <h1 className="mx-auto mt-4 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">
-        Know what's wrong with your image <span className="text-brand-500">before it reaches production.</span>
-      </h1>
-      <p className="mx-auto mt-3 max-w-xl text-sm text-slate-500 dark:text-slate-400">
-        Santhra inspects sharpness, exposure, noise, contrast, compression, colour and anomalies -
-        answering not just <i>how bad</i>, but <i>what</i>, <i>where</i>, <i>how confident</i> and <i>why</i>.
-      </p>
-      <div className="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-        {feats.map((f) => (
-          <div key={f.t} className="rounded-xl border border-slate-200 bg-white/60 p-3 text-left dark:border-white/10 dark:bg-white/[0.03]">
-            <f.icon className="h-5 w-5 text-brand-400" />
-            <p className="mt-2 text-sm font-semibold">{f.t}</p>
-            <p className="text-xs text-slate-400">{f.d}</p>
+    <section className="grid gap-4 sm:grid-cols-3">
+      {FEATURES.map((f) => {
+        const forest = f.tone === "forest";
+        const blush = f.tone === "blush";
+        return (
+          <div key={f.t} className={cnTone(forest, blush)}>
+            <f.icon className={forest ? "h-6 w-6 text-clay-soft" : "h-6 w-6 text-clay"} />
+            <p className={`eyebrow mt-4 ${forest ? "!text-clay-soft" : ""}`}>{f.kicker}</p>
+            <h3 className={`mt-1 font-display text-xl ${forest ? "text-paper" : "text-ink"}`}>{f.t}</h3>
+            <p className={`mt-2 text-sm leading-relaxed ${forest ? "text-paper/75" : "text-muted"}`}>{f.d}</p>
+          </div>
+        );
+      })}
+    </section>
+  );
+}
+
+function cnTone(forest: boolean, blush: boolean): string {
+  const base = "rounded-[1.4rem] border p-6";
+  if (forest) return `${base} border-forest bg-forest`;
+  if (blush) return `${base} border-line bg-blush/60`;
+  return `${base} border-line bg-surface`;
+}
+
+function Stats() {
+  return (
+    <section className="rounded-[1.4rem] border border-line bg-surface">
+      <div className="grid grid-cols-2 divide-line sm:grid-cols-4 sm:divide-x">
+        {STATS.map((s) => (
+          <div key={s.l} className="px-6 py-6 text-center">
+            <p className="font-display text-2xl text-ink sm:text-3xl">{s.n}</p>
+            <p className="eyebrow mt-1 !text-muted">{s.l}</p>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -70,30 +99,56 @@ export function Home() {
   }
 
   return (
-    <div className="space-y-8">
-      {status === "idle" && <Hero />}
-      {status === "idle" && <Uploader onAnalyze={handle} />}
+    <div className="space-y-12">
+      {status === "idle" && (
+        <>
+          <section className="santhra-fade">
+            <div className="max-w-3xl">
+              <span className="eyebrow">Local image intelligence</span>
+              <h1 className="mt-4 text-4xl leading-[1.05] text-ink sm:text-6xl">
+                Know what is wrong with your image,{" "}
+                <span className="highlight">before it ships.</span>
+              </h1>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted">
+                Santhra inspects sharpness, exposure, noise, contrast, compression, colour and
+                anomalies, then tells you not just <i>how bad</i>, but <i>what</i>, <i>where</i>,{" "}
+                <i>how confident</i>, and <i>why</i>.
+              </p>
+            </div>
+          </section>
+
+          <Uploader onAnalyze={handle} />
+          <Features />
+          <Stats />
+        </>
+      )}
+
       {status === "loading" && <AnalysisPipeline preview={preview} />}
+
       {status === "error" && (
-        <div className="santhra-fade rounded-2xl border border-rose-500/30 bg-rose-500/10 p-6 text-center">
-          <AlertTriangle className="mx-auto h-8 w-8 text-rose-400" />
-          <p className="mt-2 font-semibold text-rose-500 dark:text-rose-300">Analysis failed</p>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{error}</p>
-          <button onClick={reset} className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700">
+        <div className="santhra-fade rounded-[1.4rem] border border-danger/30 bg-danger/[0.06] p-8 text-center">
+          <AlertTriangle className="mx-auto h-8 w-8 text-danger" />
+          <p className="mt-3 font-display text-xl text-ink">Analysis failed</p>
+          <p className="mt-1 text-sm text-muted">{error}</p>
+          <button onClick={reset} className="btn btn-ink mt-5 px-5 py-2.5 text-sm">
             <RotateCcw className="h-4 w-4" /> Try again
           </button>
         </div>
       )}
+
       {status === "done" && result && (
-        <>
+        <div className="space-y-8">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Analysis Report</h2>
-            <button onClick={reset} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:border-white/10 dark:text-slate-300 dark:hover:bg-white/10">
+            <div>
+              <span className="eyebrow">Report</span>
+              <h2 className="mt-1 font-display text-2xl text-ink">Analysis</h2>
+            </div>
+            <button onClick={reset} className="btn btn-outline px-4 py-2 text-sm">
               <RotateCcw className="h-4 w-4" /> New analysis
             </button>
           </div>
           <ResultView result={result} originalUrl={preview ?? undefined} />
-        </>
+        </div>
       )}
     </div>
   );

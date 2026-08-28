@@ -1,17 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@400..700&family=Space+Mono:wght@400;700&family=Caveat:wght@500..700&display=swap');
 @import "tailwindcss";
 
-/* class-based dark mode (we default to dark on <html>) */
+/* Dark variant kept but never activated (light-only, warm editorial theme). */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-300: #a5b4fc;
-  --color-brand-400: #818cf8;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
+  --color-paper: #f4efe3;
+  --color-paper-2: #efe7d8;
+  --color-surface: #fbf8f0;
+  --color-ink: #1c1a15;
+  --color-ink-soft: #3d382f;
+  --color-muted: #79705f;
+  --color-line: #e4ddcc;
+  --color-forest: #2c4a39;
+  --color-forest-deep: #223c2e;
+  --color-clay: #c15a2f;
+  --color-clay-soft: #d98a5f;
+  --color-blush: #ecd6cd;
+  --color-sand: #efe1d3;
+
+  /* semantic status colours (warm, readable on cream) */
+  --color-sage: #5f8368;
+  --color-ochre: #b8842b;
+  --color-danger: #b23b23;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-hand: "Caveat", "Segoe Script", cursive;
 }
 
 html { scroll-behavior: smooth; }
@@ -20,21 +36,56 @@ html, body, #root { height: 100%; }
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background: #f8fafc;
-  color: #0f172a;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  background-image: radial-gradient(rgba(28, 26, 21, 0.035) 1px, transparent 1px);
+  background-size: 22px 22px;
   -webkit-font-smoothing: antialiased;
-}
-.dark body {
-  background:
-    radial-gradient(1100px 600px at 15% -10%, rgba(79, 70, 229, 0.14), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(14, 165, 233, 0.10), transparent 55%),
-    #060a16;
-  color: #e2e8f0;
+  text-rendering: optimizeLegibility;
 }
 
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.4); border-radius: 8px; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-thumb { background: #d8cfba; border-radius: 8px; border: 3px solid var(--color-paper); }
 ::-webkit-scrollbar-track { background: transparent; }
+::selection { background: var(--color-blush); }
 
-@keyframes santhra-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-.santhra-fade { animation: santhra-fade 0.4s ease both; }
+/* ---- reusable pieces -------------------------------------------------- */
+.font-display { font-family: var(--font-display); }
+.font-hand { font-family: var(--font-hand); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+  color: var(--color-clay);
+}
+
+.highlight { background: var(--color-blush); border-radius: 0.15em; box-decoration-break: clone; padding: 0 0.12em; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border-radius: 9999px; font-weight: 600; line-height: 1;
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+.btn:active { transform: translateY(1px); }
+.btn-ink { background: var(--color-ink); color: #fff; }
+.btn-ink:hover { background: #000; }
+.btn-forest { background: var(--color-forest); color: #f4efe3; }
+.btn-forest:hover { background: var(--color-forest-deep); }
+.btn-clay { background: var(--color-clay); color: #fff; }
+.btn-clay:hover { background: #a94a24; }
+.btn-outline { background: transparent; border: 1px solid var(--color-ink); color: var(--color-ink); }
+.btn-outline:hover { background: var(--color-ink); color: #fff; }
+
+@keyframes santhra-fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.santhra-fade { animation: santhra-fade 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes santhra-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-track { display: inline-flex; white-space: nowrap; will-change: transform; animation: santhra-marquee 34s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+@keyframes santhra-spin { to { transform: rotate(360deg); } }

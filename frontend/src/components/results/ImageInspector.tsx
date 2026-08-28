@@ -17,24 +17,22 @@ export function ImageInspector({ original, heatmap, problem, heatmapMethod, prob
 
   return (
     <div>
-      <div className="mb-3 inline-flex rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-white/10 dark:bg-white/5">
+      <div className="mb-3 inline-flex rounded-full border border-line bg-paper-2 p-1">
         {tabs.map((t) => (
           <button key={t.key} onClick={() => setTab(t.key)} disabled={!t.src}
             className={cn(
-              "rounded-md px-3 py-1.5 text-xs font-medium transition disabled:opacity-40",
-              tab === t.key
-                ? "bg-white text-slate-900 shadow-sm dark:bg-white/15 dark:text-white"
-                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white",
+              "rounded-full px-3.5 py-1.5 text-xs font-semibold transition disabled:opacity-40",
+              tab === t.key ? "bg-ink text-white shadow-sm" : "text-muted hover:text-ink",
             )}>{t.label}</button>
         ))}
       </div>
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-900/5 dark:border-white/10 dark:bg-black/30">
+      <div className="overflow-hidden rounded-2xl border border-line bg-paper-2">
         {active.src
           ? <img src={active.src} alt={active.label} className="max-h-[420px] w-full object-contain" />
-          : <div className="flex h-64 items-center justify-center text-sm text-slate-400">Not available</div>}
+          : <div className="flex h-64 items-center justify-center text-sm text-muted">Not available</div>}
       </div>
       {active.caption && (
-        <p className="mt-2 text-center text-[11px] text-slate-400">Method: {active.caption}</p>
+        <p className="mt-2 text-center eyebrow !text-muted">Method: {active.caption}</p>
       )}
     </div>
   );
