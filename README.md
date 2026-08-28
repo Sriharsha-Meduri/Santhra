@@ -1,18 +1,38 @@
-# Santhra
+<div align="center">
 
-**AI-Powered Image Quality & Defect Intelligence.**
+# SANTHRA
 
-Santhra inspects an image and tells you **what** is wrong (blur, exposure,
-noise, contrast, compression, colour, anomalies), **how severe** it is, **how
-confident** it is, **where** the problem is, **why** it reached that verdict, and
-**how reliable** the verdict is. It does this by running a learned CNN and a
-classical computer-vision engine side by side and reconciling them in a
-transparent fusion step. Every number in the UI is tagged by origin: **measured**
-(CV), **learned** (model), or **fused** (a combined decision).
+**Visual Quality Intelligence**
 
-It runs fully local. No external AI services, no API keys.
+*See the signal. Understand the evidence.*
 
-![pipeline](docs/pipeline.svg)
+`Upload  →  Analyze  →  Understand  →  Act`
+
+</div>
+
+Santhra inspects an image and answers six questions about it: **what** is wrong
+(blur, exposure, noise, contrast, compression, colour, anomalies), **how severe**
+it is, **how confident** it is, **where** the problem is, **why** it reached that
+verdict, and **how reliable** the verdict is. It runs a learned CNN and a
+classical computer-vision engine side by side and reconciles them in a
+transparent fusion step, so every number is tagged by origin: **measured** (CV),
+**learned** (model), or **fused** (a combined decision).
+
+Runs fully local. No external AI services, no API keys.
+
+![Santhra pipeline](docs/pipeline.svg)
+
+## What a result looks like
+
+Drop in a photo that looks acceptable at a glance. Santhra returns a verdict with
+its reasoning, for example:
+
+- A **quality score and band** (EXCELLENT / ACCEPTABLE / DEGRADED / POTENTIALLY_DEFECTIVE) with a confidence level.
+- **Per-issue cards** that show the learned and measured signals side by side, e.g. `Blur HIGH` with **AI model 96%** but **CV signal 40%**.
+- **Signal Agreement**: when the two detectors disagree it drops to LOW and **Review Recommended** fires, with the reason stated.
+- **Where and why**: a Grad-CAM heatmap, CV problem regions, Quality Forensics (observed signal vs learned expectation), and a plain-language "Why did Santhra say this?".
+
+Nothing is a black box: measured, learned, and fused values are always shown together.
 
 ## What is inside
 

@@ -1,51 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" font-family="Segoe UI, Helvetica, Arial, sans-serif">
-  <rect width="960" height="300" fill="#0b1020"/>
-  <text x="480" y="34" text-anchor="middle" fill="#e2e8f0" font-size="19" font-weight="700">VisionGuard - hybrid image-quality pipeline</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 640" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="860" height="640" rx="14" fill="#0b1020"/>
+  <text x="430" y="36" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">SANTHRA</text>
+  <text x="430" y="56" text-anchor="middle" fill="#93c5fd" font-size="12" letter-spacing="2">VISUAL QUALITY INTELLIGENCE</text>
 
-  <!-- input -->
-  <rect x="30" y="120" width="120" height="60" rx="10" fill="#1e293b" stroke="#334155"/>
-  <text x="90" y="147" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="600">Input image</text>
-  <text x="90" y="166" text-anchor="middle" fill="#94a3b8" font-size="11">decode + validate</text>
+  <!-- image -->
+  <rect x="360" y="74" width="140" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="430" y="101" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="600">Image</text>
 
   <!-- three analyzers -->
-  <rect x="230" y="52" width="180" height="56" rx="10" fill="#0e2a4a" stroke="#2563eb"/>
-  <text x="320" y="76" text-anchor="middle" fill="#dbeafe" font-size="13" font-weight="600">Learned CNN</text>
-  <text x="320" y="94" text-anchor="middle" fill="#93c5fd" font-size="11">class · issues · score</text>
-
-  <rect x="230" y="122" width="180" height="56" rx="10" fill="#0d2f26" stroke="#10b981"/>
-  <text x="320" y="146" text-anchor="middle" fill="#d1fae5" font-size="13" font-weight="600">CV feature engine</text>
-  <text x="320" y="164" text-anchor="middle" fill="#6ee7b7" font-size="11">measured metrics</text>
-
-  <rect x="230" y="192" width="180" height="56" rx="10" fill="#2b1d3a" stroke="#a855f7"/>
-  <text x="320" y="216" text-anchor="middle" fill="#f3e8ff" font-size="13" font-weight="600">Anomaly autoencoder</text>
-  <text x="320" y="234" text-anchor="middle" fill="#d8b4fe" font-size="11">reconstruction residual</text>
-
-  <!-- fusion -->
-  <rect x="500" y="112" width="170" height="76" rx="10" fill="#3a2a10" stroke="#f59e0b"/>
-  <text x="585" y="140" text-anchor="middle" fill="#fef3c7" font-size="13" font-weight="700">Fusion engine</text>
-  <text x="585" y="158" text-anchor="middle" fill="#fcd34d" font-size="11">detect · severity</text>
-  <text x="585" y="174" text-anchor="middle" fill="#fcd34d" font-size="11">confidence · review</text>
-
-  <!-- explain -->
-  <rect x="760" y="112" width="170" height="76" rx="10" fill="#1e293b" stroke="#64748b"/>
-  <text x="845" y="140" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">Explainability</text>
-  <text x="845" y="158" text-anchor="middle" fill="#cbd5e1" font-size="11">Grad-CAM · regions</text>
-  <text x="845" y="174" text-anchor="middle" fill="#cbd5e1" font-size="11">forensics · narrative</text>
-
-  <!-- arrows -->
-  <g stroke="#475569" stroke-width="2" fill="none">
-    <path d="M150 150 L228 80"/>
-    <path d="M150 150 L228 150"/>
-    <path d="M150 150 L228 220"/>
-    <path d="M410 80 L498 140"/>
-    <path d="M410 150 L498 150"/>
-    <path d="M410 220 L498 160"/>
-    <path d="M670 150 L758 150"/>
+  <g stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M430 118 L430 132 L155 132 L155 150" fill="none"/>
+    <path d="M430 132 L430 150" fill="none"/>
+    <path d="M430 132 L705 132 L705 150" fill="none"/>
   </g>
-  <g fill="#475569">
-    <circle cx="228" cy="80" r="3"/><circle cx="228" cy="150" r="3"/><circle cx="228" cy="220" r="3"/>
-    <circle cx="498" cy="150" r="3"/><circle cx="758" cy="150" r="3"/>
-  </g>
+  <rect x="40" y="152" width="230" height="70" rx="10" fill="#0e2a4a" stroke="#2563eb"/>
+  <text x="155" y="182" text-anchor="middle" fill="#dbeafe" font-size="13" font-weight="600">Learned CNN</text>
+  <text x="155" y="202" text-anchor="middle" fill="#93c5fd" font-size="11">MobileNetV3-Small, 3 heads</text>
+  <rect x="315" y="152" width="230" height="70" rx="10" fill="#0d2f26" stroke="#10b981"/>
+  <text x="430" y="182" text-anchor="middle" fill="#d1fae5" font-size="13" font-weight="600">CV Feature Engine</text>
+  <text x="430" y="202" text-anchor="middle" fill="#6ee7b7" font-size="11">OpenCV / scikit-image</text>
+  <rect x="590" y="152" width="230" height="70" rx="10" fill="#2b1d3a" stroke="#a855f7"/>
+  <text x="705" y="182" text-anchor="middle" fill="#f3e8ff" font-size="13" font-weight="600">Anomaly Autoencoder</text>
+  <text x="705" y="202" text-anchor="middle" fill="#d8b4fe" font-size="11">clean-image distribution</text>
 
-  <text x="480" y="288" text-anchor="middle" fill="#64748b" font-size="11">measured (CV) · learned (model) · fused (combined decision) - every value tagged by origin</text>
+  <!-- converge to fusion -->
+  <g stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M155 222 L155 250 L430 250 L430 266" fill="none"/>
+    <path d="M430 222 L430 266" fill="none"/>
+    <path d="M705 222 L705 250 L430 250" fill="none"/>
+  </g>
+  <rect x="245" y="268" width="370" height="56" rx="10" fill="#3a2a10" stroke="#f59e0b"/>
+  <text x="430" y="293" text-anchor="middle" fill="#fef3c7" font-size="14" font-weight="700">Fusion Engine</text>
+  <text x="430" y="312" text-anchor="middle" fill="#fcd34d" font-size="11">weighted, thresholded, agreement-aware</text>
+
+  <!-- three fused outputs -->
+  <g stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M430 324 L430 344 L190 344 L190 360" fill="none"/>
+    <path d="M430 344 L430 360" fill="none"/>
+    <path d="M430 344 L670 344 L670 360" fill="none"/>
+  </g>
+  <rect x="85" y="362" width="210" height="52" rx="10" fill="#111c30" stroke="#475569"/>
+  <text x="190" y="392" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Quality Score 0-100</text>
+  <rect x="325" y="362" width="210" height="52" rx="10" fill="#111c30" stroke="#475569"/>
+  <text x="430" y="392" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Issues + Severity</text>
+  <rect x="565" y="362" width="210" height="52" rx="10" fill="#111c30" stroke="#475569"/>
+  <text x="670" y="386" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Confidence</text>
+  <text x="670" y="403" text-anchor="middle" fill="#94a3b8" font-size="11">+ signal agreement</text>
+
+  <!-- converge to explainability -->
+  <g stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M190 414 L190 438 L430 438 L430 454" fill="none"/>
+    <path d="M430 414 L430 454" fill="none"/>
+    <path d="M670 414 L670 438 L430 438" fill="none"/>
+  </g>
+  <rect x="255" y="456" width="350" height="52" rx="10" fill="#1e293b" stroke="#64748b"/>
+  <text x="430" y="481" text-anchor="middle" fill="#f8fafc" font-size="14" font-weight="700">Explainability</text>
+  <text x="430" y="500" text-anchor="middle" fill="#cbd5e1" font-size="11">why did Santhra say this?</text>
+
+  <!-- explainability outputs -->
+  <g stroke="#475569" stroke-width="1.6" marker-end="url(#a)">
+    <path d="M430 508 L430 528 L190 528 L190 544" fill="none"/>
+    <path d="M430 528 L430 544" fill="none"/>
+    <path d="M430 528 L670 528 L670 544" fill="none"/>
+  </g>
+  <rect x="85" y="546" width="210" height="48" rx="10" fill="#111c30" stroke="#475569"/>
+  <text x="190" y="575" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Grad-CAM Heatmaps</text>
+  <rect x="325" y="546" width="210" height="48" rx="10" fill="#111c30" stroke="#475569"/>
+  <text x="430" y="575" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Quality Forensics</text>
+  <rect x="565" y="546" width="210" height="48" rx="10" fill="#111c30" stroke="#475569"/>
+  <text x="670" y="575" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Evidence + Narrative</text>
+
+  <text x="430" y="622" text-anchor="middle" fill="#64748b" font-size="11">measured (CV) · learned (model) · fused (combined decision) : every value tagged by origin</text>
 </svg>
