@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node / frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Data (regenerate with scripts), large
+ml/data/
+!ml/data/.gitkeep
+
+# Runtime
+*.db
+media/
+.env
+
+# NOTE: ml/checkpoints/*.pt ARE committed so the app runs without retraining.
+
+# OS / editor / tooling
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.claude/
+.cursor/

@@ -1,0 +1,22 @@
+# Santhra backend + ML pipeline dependencies.
+# For a CPU-only install (as the Docker image does), get the CPU wheels first:
+#   pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu
+# then `pip install -r requirements.txt`. A plain `pip install -r requirements.txt`
+# pulls the default-index torch, which on Linux is the large CUDA build.
+fastapi==0.117.1
+uvicorn[standard]==0.36.0
+pydantic==2.11.9
+python-multipart==0.0.20
+sqlalchemy==2.0.36
+numpy==2.2.6
+opencv-python-headless==4.10.0.84
+pillow==11.3.0
+scikit-image==0.25.2
+PyWavelets==1.8.0          # required by skimage.restoration.estimate_sigma (noise)
+scikit-learn==1.6.1
+matplotlib==3.10.0
+torch==2.6.0
+torchvision==0.21.0
+# tests
+pytest==9.1.1
+httpx==0.28.1
