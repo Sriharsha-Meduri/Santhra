@@ -1,0 +1,14 @@
+**/node_modules
+**/__pycache__
+**/*.pyc
+**/.venv
+**/venv
+.git
+.pytest_cache
+ml/data
+media
+*.db
+**/*.db
+frontend/dist
+frontend/.vite
+docs/**/*.png
