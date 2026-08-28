@@ -1,0 +1,232 @@
+{
+  "test_items": 540,
+  "test_sources": 180,
+  "issue_macro_f1": 0.8881,
+  "issue_micro_f1": 0.8767,
+  "per_issue": {
+    "blur": {
+      "precision": 0.9658,
+      "recall": 0.9912,
+      "f1": 0.9784,
+      "support": 114,
+      "roc_auc": 0.9998
+    },
+    "underexposure": {
+      "precision": 0.9643,
+      "recall": 1.0,
+      "f1": 0.9818,
+      "support": 54,
+      "roc_auc": 0.9992
+    },
+    "overexposure": {
+      "precision": 0.8095,
+      "recall": 0.8947,
+      "f1": 0.85,
+      "support": 57,
+      "roc_auc": 0.9927
+    },
+    "noise": {
+      "precision": 0.9381,
+      "recall": 0.9725,
+      "f1": 0.955,
+      "support": 109,
+      "roc_auc": 0.9963
+    },
+    "low_contrast": {
+      "precision": 0.8926,
+      "recall": 0.9643,
+      "f1": 0.927,
+      "support": 112,
+      "roc_auc": 0.9935
+    },
+    "compression": {
+      "precision": 0.825,
+      "recall": 0.7984,
+      "f1": 0.8115,
+      "support": 124,
+      "roc_auc": 0.9533
+    },
+    "color_cast": {
+      "precision": 0.6282,
+      "recall": 0.8235,
+      "f1": 0.7127,
+      "support": 119,
+      "roc_auc": 0.9197
+    }
+  },
+  "class_accuracy": 0.8074,
+  "per_class": {
+    "ACCEPTABLE": {
+      "precision": 0.9788,
+      "recall": 0.9391,
+      "f1": 0.9585,
+      "support": 197
+    },
+    "DEGRADED": {
+      "precision": 0.6549,
+      "recall": 0.637,
+      "f1": 0.6458,
+      "support": 146
+    },
+    "POTENTIALLY_DEFECTIVE": {
+      "precision": 0.756,
+      "recall": 0.802,
+      "f1": 0.7783,
+      "support": 197
+    }
+  },
+  "confusion_matrix": [
+    [
+      185,
+      10,
+      2
+    ],
+    [
+      4,
+      93,
+      49
+    ],
+    [
+      0,
+      39,
+      158
+    ]
+  ],
+  "confusion_labels": [
+    "ACCEPTABLE",
+    "DEGRADED",
+    "POTENTIALLY_DEFECTIVE"
+  ],
+  "score_mae": 10.274,
+  "score_rmse": 15.255,
+  "breakdown": {
+    "clean (0 issues)": {
+      "count": 197,
+      "class_acc": 0.9391,
+      "issue_macro_f1": "N/A",
+      "score_mae": 5.111
+    },
+    "single (1)": {
+      "count": 109,
+      "class_acc": 0.7431,
+      "issue_macro_f1": 0.8321,
+      "score_mae": 15.762
+    },
+    "mixed (2+)": {
+      "count": 234,
+      "class_acc": 0.7265,
+      "issue_macro_f1": 0.9118,
+      "score_mae": 12.063
+    }
+  },
+  "failure_cases": [
+    {
+      "id": "test_00495",
+      "true_class": "ACCEPTABLE",
+      "pred_class": "DEGRADED",
+      "true_score": 100.0,
+      "pred_score": 40.20000076293945,
+      "true_issues": [],
+      "pred_issues": [
+        "color_cast"
+      ]
+    },
+    {
+      "id": "test_00165",
+      "true_class": "ACCEPTABLE",
+      "pred_class": "POTENTIALLY_DEFECTIVE",
+      "true_score": 100.0,
+      "pred_score": 45.79999923706055,
+      "true_issues": [],
+      "pred_issues": [
+        "color_cast"
+      ]
+    },
+    {
+      "id": "test_00004",
+      "true_class": "DEGRADED",
+      "pred_class": "DEGRADED",
+      "true_score": 90.0,
+      "pred_score": 36.20000076293945,
+      "true_issues": [
+        "overexposure"
+      ],
+      "pred_issues": [
+        "overexposure"
+      ]
+    },
+    {
+      "id": "test_00414",
+      "true_class": "ACCEPTABLE",
+      "pred_class": "DEGRADED",
+      "true_score": 100.0,
+      "pred_score": 48.900001525878906,
+      "true_issues": [],
+      "pred_issues": [
+        "color_cast"
+      ]
+    },
+    {
+      "id": "test_00452",
+      "true_class": "DEGRADED",
+      "pred_class": "POTENTIALLY_DEFECTIVE",
+      "true_score": 63.400001525878906,
+      "pred_score": 12.800000190734863,
+      "true_issues": [
+        "blur",
+        "underexposure"
+      ],
+      "pred_issues": [
+        "blur",
+        "underexposure",
+        "color_cast"
+      ]
+    },
+    {
+      "id": "test_00060",
+      "true_class": "ACCEPTABLE",
+      "pred_class": "POTENTIALLY_DEFECTIVE",
+      "true_score": 100.0,
+      "pred_score": 49.70000076293945,
+      "true_issues": [],
+      "pred_issues": [
+        "noise",
+        "color_cast"
+      ]
+    },
+    {
+      "id": "test_00194",
+      "true_class": "DEGRADED",
+      "pred_class": "POTENTIALLY_DEFECTIVE",
+      "true_score": 85.0999984741211,
+      "pred_score": 40.0,
+      "true_issues": [
+        "noise"
+      ],
+      "pred_issues": [
+        "noise",
+        "compression"
+      ]
+    },
+    {
+      "id": "test_00181",
+      "true_class": "DEGRADED",
+      "pred_class": "POTENTIALLY_DEFECTIVE",
+      "true_score": 78.9000015258789,
+      "pred_score": 34.099998474121094,
+      "true_issues": [
+        "overexposure"
+      ],
+      "pred_issues": [
+        "overexposure",
+        "color_cast"
+      ]
+    }
+  ],
+  "calibration": {
+    "class_nll_before": 0.7193,
+    "class_nll_after": 0.4281,
+    "class_ece_before": 0.1238,
+    "class_ece_after": 0.0217
+  }
+}
