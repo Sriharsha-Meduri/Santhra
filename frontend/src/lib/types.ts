@@ -71,6 +71,7 @@ export interface AnalysisResult {
     detected: boolean; label: string; score: number;
     z_score: number; recon_error: number;
   };
+  integrity: { score: number; severely_degraded: boolean; entropy: number };
   explainability: Explainability;
   model_info: Record<string, unknown>;
   analysis_time_ms: number;

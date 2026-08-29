@@ -31,6 +31,11 @@ export function ResultView({ result, originalUrl }: { result: AnalysisResult; or
                   <Sparkles className="h-3.5 w-3.5" /> Potential anomaly
                 </Badge>
               )}
+              {result.integrity.severely_degraded && (
+                <Badge className="text-danger bg-danger/10 ring-danger/25">
+                  <AlertOctagon className="h-3.5 w-3.5" /> Severe degradation
+                </Badge>
+              )}
             </div>
             <p className="text-sm text-muted">
               <span className="font-medium text-ink">{result.filename}</span>

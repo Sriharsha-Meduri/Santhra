@@ -99,6 +99,7 @@ def analyze_image(data: bytes, filename: str | None, request_id: str = "-") -> t
         "statistics": statistics,
         "signal_agreement": fusion["signal_agreement"],
         "anomaly": fusion["anomaly"],
+        "integrity": fusion["integrity"],
         "explainability": explain,
         "model_info": model_info,
         "analysis_time_ms": elapsed_ms,

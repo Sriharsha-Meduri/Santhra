@@ -11,9 +11,10 @@
 </div>
 
 Santhra inspects an image and answers six questions about it: **what** is wrong
-(blur, exposure, noise, contrast, compression, colour, anomalies), **how severe**
-it is, **how confident** it is, **where** the problem is, **why** it reached that
-verdict, and **how reliable** the verdict is. It runs a learned CNN and a
+(blur, exposure, noise, contrast, compression, colour, corruption / severe
+degradation, and potential visual defects), **how severe** it is, **how
+confident** it is, **where** the problem is, **why** it reached that verdict, and
+**how reliable** the verdict is. It runs a learned CNN and a
 classical computer-vision engine side by side and reconciles them in a
 transparent fusion step, so every number is tagged by origin: **measured** (CV),
 **learned** (model), or **fused** (a combined decision).

@@ -94,6 +94,7 @@ def test_fusion_is_hybrid_not_cnn_only():
         "contrast": {"percentile_spread": 0.0, "rms_contrast": 0.0},
         "compression": {"blockiness": 1.0},
         "color": {"color_cast": 0.0, "saturation_mean": 0.3},
+        "integrity": {"entropy": 7.5, "uniformity": 0.1, "constant_row_fraction": 0.0},
     }
     dims = {d: 50 for d in ("sharpness", "exposure", "noise", "contrast", "color", "integrity")}
     ml = {

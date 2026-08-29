@@ -38,6 +38,10 @@ def test_analyze_valid_image(client):
     an = j["anomaly"]
     assert set(an) == {"detected", "label", "score", "z_score", "recon_error"}
     assert 0.0 <= an["score"] <= 1.0
+    # corruption / severe-degradation capability is surfaced
+    integ = j["integrity"]
+    assert set(integ) == {"score", "severely_degraded", "entropy"}
+    assert isinstance(integ["severely_degraded"], bool)
 
 
 def test_reject_oversized_upload(client):

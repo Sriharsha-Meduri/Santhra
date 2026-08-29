@@ -21,6 +21,7 @@ from ..config import (AGREEMENT_HIGH, ANOMALY_DETECT, CONF_AGREEMENT_WEIGHT,
                       ISSUE_ML_WEIGHT, ISSUE_TYPES, PIPELINE_VERSION,
                       SCORE_BANDS, SCORE_CV_WEIGHT, SCORE_ML_WEIGHT,
                       STRONG_DISAGREE)
+from ..cv.corruption import is_severely_degraded
 
 _SEVERITY_BANDS = FUSED_SEVERITY_BANDS
 
@@ -100,6 +101,12 @@ def fuse(ml: dict, cv: dict, anomaly: dict) -> dict:
     overall_agreement = sum(agreements) / len(agreements)
     agreement_band = "HIGH_AGREEMENT" if overall_agreement >= AGREEMENT_HIGH else "LOW_AGREEMENT"
 
+    # ---- integrity / corruption / severe degradation ---------------------- #
+    # Measured from the image (entropy, tonal uniformity, constant rows). This is
+    # the classical companion to the anomaly net for gross corruption/degradation
+    # that decodes but is clearly broken.
+    severely_degraded = is_severely_degraded(feats["integrity"])
+
     # ---- anomaly conflict -------------------------------------------------- #
     anomaly_detected = anomaly["anomaly_score"] >= ANOMALY_DETECT
     class_margin = max(ml["class_probs"].values()) - sorted(ml["class_probs"].values())[-2]
@@ -128,6 +135,8 @@ def fuse(ml: dict, cv: dict, anomaly: dict) -> dict:
                 f"AI and CV signals disagree on {i['type'].replace('_', ' ')}.")
     if anomaly_conflict:
         review_reasons.append("Autoencoder flags a possible anomaly the classifier missed.")
+    if severely_degraded:
+        review_reasons.append("Image appears severely degraded or corrupted (very low entropy or constant regions).")
     review_recommended = bool(review_reasons)
 
     return {
@@ -156,6 +165,11 @@ def fuse(ml: dict, cv: dict, anomaly: dict) -> dict:
             "score": round(anomaly["anomaly_score"], 3),
             "z_score": round(anomaly["z_score"], 3),
             "recon_error": round(anomaly["recon_error"], 6),
+        },
+        "integrity": {
+            "score": dims["integrity"],                 # 0-100 integrity dimension
+            "severely_degraded": bool(severely_degraded),
+            "entropy": round(feats["integrity"]["entropy"], 3),
         },
         "model_score": ml["model_score"],
         "cv_score": round(cv_score, 1),

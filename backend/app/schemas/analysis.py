@@ -71,6 +71,7 @@ class AnalysisResponse(BaseModel):
     statistics: dict[str, Any]
     signal_agreement: dict[str, Any]
     anomaly: dict[str, Any]
+    integrity: dict[str, Any]
     explainability: ExplainabilityOut
     model_info: ModelInfoOut
     analysis_time_ms: float

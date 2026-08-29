@@ -65,6 +65,7 @@ curl -F "file=@sample.jpg" http://localhost:8000/api/v1/analyze
 | `statistics` | object | measured | raw interpretable CV metrics |
 | `signal_agreement` | object | **fused** | AI vs CV vs anomaly agreement |
 | `anomaly` | object | learned | `detected`, `label`, `score`, `z_score`, `recon_error` (see note) |
+| `integrity` | object | measured | `score` (0-100), `severely_degraded` (bool), `entropy`; flags corruption / severe degradation |
 | `explainability` | object | mixed | heatmaps, forensics, narrative (below) |
 | `model_info` | object | - | model/pipeline versions, device, sub-scores |
 | `analysis_time_ms` | float | - | server processing time |
