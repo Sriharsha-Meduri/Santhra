@@ -86,6 +86,79 @@ Open the URL Vite prints (default http://localhost:5173). The dev server proxies
 `/api`, `/media` and `/health` to the backend on port 8000, so there is no CORS
 setup to do.
 
+## Deployment
+
+The whole app runs outside a development machine with a single command; nothing
+about the developer's environment is required.
+
+```bash
+docker compose up --build
+```
+
+- App (nginx + built frontend): http://localhost:8080
+- API + interactive docs: http://localhost:8000/docs
+- Health check: http://localhost:8000/health
+
+**Frontend and backend communication.** The frontend container (nginx) serves the
+built React app and reverse-proxies `/api`, `/media` and `/health` to the
+`backend` service over the internal Docker network, so the browser only ever
+talks to one origin and there is no CORS in normal operation. This mirrors the
+Vite dev proxy, so the deployed app behaves identically to local dev.
+
+**Configuration is via environment variables** (see `.env.example`), read in
+`backend/app/config.py`:
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `SANTHRA_DEVICE` | `auto` | `cpu` / `cuda` / `auto` device selection |
+| `DATABASE_URL` | SQLite file | any SQLAlchemy URL (SQLite or PostgreSQL) |
+| `MODEL_PATH`, `ANOMALY_MODEL_PATH`, `CALIBRATION_PATH` | `ml/checkpoints/...` | checkpoint locations |
+| `MAX_UPLOAD_SIZE_MB` | `15` | upload size limit |
+| `CORS_ORIGINS` | localhost list | allowed origins (only needed if origins are split) |
+| `LOG_LEVEL` | `INFO` | log verbosity |
+
+**Health / status endpoint.** `GET /health` returns `200` when the model, the
+anomaly net and the database are all ready, and `503` when degraded:
+
+```json
+{ "status": "healthy", "model_loaded": true, "anomaly_model_loaded": true,
+  "database": "connected", "device": "cpu",
+  "model": { "name": "santhra-mtl-mobilenetv3s", "version": "1.0.0" } }
+```
+
+The backend image also declares a Docker `HEALTHCHECK` against this endpoint, and
+the frontend waits for `service_healthy` before it starts.
+
+**How the model is loaded and inference runs after deployment.** The trained
+weights (`ml/checkpoints/model.pt`, `anomaly.pt`, `calibration.json`) are
+committed and copied into the backend image, so there is no training or download
+step at deploy time. On startup a FastAPI lifespan hook loads them **once** into
+a locked singleton inference engine and warms it, so `/health` reports ready and
+the first request is not penalised. Per request, `POST /api/v1/analyze` decodes
+and validates the image, runs the CV feature engine, the CNN (with
+temperature-calibrated probabilities) and the autoencoder, fuses the signals,
+renders the Grad-CAM and CV overlays and the narrative, persists the structured
+result, and returns one JSON document. The heavy work runs in a threadpool with
+the model lock held, so concurrent uploads never corrupt the shared model.
+
+Cloud hosting is optional and not deployed; the local Docker Compose stack is the
+runnable submission artifact.
+
+## Database
+
+No manual setup or migration is required. On startup the backend calls
+`init_db()`, which creates the schema automatically if it does not already exist.
+
+- **Default (SQLite):** a file (`santhra.db` locally, `/app/data/santhra.db` in
+  Docker) on the `santhra_data` volume, so history survives restarts. Rendered
+  thumbnails and heatmaps are written to the `santhra_media` volume, never stored
+  as binary blobs in the database.
+- **PostgreSQL (optional):** set `DATABASE_URL` to a PostgreSQL URL, for example
+  `postgresql+psycopg://user:pass@host:5432/santhra`. The SQLAlchemy 2.0 models
+  are database-agnostic, so no code change is needed.
+- **Reset:** delete the `*.db` file, or `docker compose down -v` to drop the
+  data and media volumes.
+
 ## Try it
 
 Use the built-in sample buttons on the home page (Clean, Blurry, Underexposed,
@@ -114,12 +187,18 @@ curl -F "file=@frontend/public/samples/blurry.jpg" http://localhost:8000/api/v1/
 Per-issue F1 spans 0.98 (blur, underexposure) to 0.71 (color_cast). Full tables,
 confusion matrix and failure cases: [docs/evaluation.md](docs/evaluation.md).
 
-## Tests
+## Tests and CI
 
 ```bash
 cd backend
 python -m pytest -q
 ```
+
+19 tests cover the API (health, analyze, batch, error codes, persistence and
+history CRUD), the CV feature engine, the model, and the fusion decision logic.
+A GitHub Actions workflow ([.github/workflows/ci.yml](.github/workflows/ci.yml))
+runs the backend test suite and the frontend production build on every push and
+pull request.
 
 ## Retraining (optional)
 
